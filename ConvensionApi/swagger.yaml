@@ -1,0 +1,300 @@
+﻿openapi: 3.0.0
+info:
+  version: 0.0.1
+  title: Convension API 
+
+servers:
+  - url: '{protocol}://localhost:8081/{basePath}'
+    variables:
+      protocol:
+        description: Protocol
+        enum:
+          - 'https'
+          - 'http'
+        default: 'https'
+      basePath:
+        description: Base path
+        enum:
+          - 'api/v1'
+        default: 'api/v1'
+
+paths:
+  /participants:
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Participant'
+      responses:
+        '201':
+          description: Created
+      security:
+        - openId:
+          - participant        
+
+  /participants/{participantId}:
+      get:
+        description: Returns a list of participants   
+        parameters:
+          - in: path
+            name: participantId
+            schema:
+              type: integer
+            required: true
+            description: Numeric ID of the participant to get                 
+        responses:
+          '200':
+            description: Successful response      
+        security:
+          - openId:
+            - participant
+            - administrator
+
+  /talkers:
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Talker'
+      responses:
+        '201':
+          description: Created
+      security:
+        - openId:
+          - talker   
+
+  /talkers/{talkerId}:
+      get:
+        description: Returns a specic talker         
+        parameters:
+          - in: path
+            name: participantId
+            schema:
+              type: integer
+            required: true
+            description: Numeric ID of the talker to get              
+        responses:
+          '200':
+            description: Successful response      
+        security:
+          - openId:
+            - administrator
+            - talker
+            
+  /convensions:
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Convension'
+      responses:
+        '201':
+          description: Created
+      security:
+        - openId:
+          - administrator  
+
+  /convensions/{convensionId}:
+      get:
+        description: Get a convension
+        parameters:
+          - in: path
+            name: convensionId
+            schema:
+              type: integer
+            required: true
+            description: Numeric ID of the convension to get                        
+        responses:
+          '200':
+            description: Successful response      
+        security:
+          - openId:
+            - talker
+            - participant
+            - administrator
+
+  /venues:
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Venue'
+      responses:
+        '201':
+          description: Created
+      security:
+        - openId:
+          - administrator  
+
+  /venues/{venueId}:
+      get:
+        description: Get a venue
+        parameters:
+          - in: path
+            name: venueId
+            schema:
+              type: integer
+            required: true
+            description: Numeric ID of the venue to get                        
+        responses:
+          '200':
+            description: Successful response      
+        security:
+          - openId:
+            - talker
+            - participant
+            - administrator
+
+  /topics:
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Topic'
+      responses:
+        '201':
+          description: Created
+      security:
+        - openId:
+          - administrator  
+
+  /topics/{topicId}:
+      get:
+        description: Get a venue
+        parameters:
+          - in: path
+            name: topicId
+            schema:
+              type: integer
+            required: true
+            description: Numeric ID of the venue to get                        
+        responses:
+          '200':
+            description: Successful response      
+        security:
+          - openId:
+            - talker
+            - participant
+            - administrator            
+
+components:
+  requestBodies:
+    ParticipantBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Participant'
+
+  schemas:
+    Participant:    
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        phone:
+          type: string 
+        address:
+          type: string
+        email:
+          type: string
+      example:  
+        id: 1
+        name: Anders And
+        phone: +45 12345678
+        address: Andevej 1, Andeby
+        email: anders.and@andeby.dk
+        
+    Talker:    
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        phone:
+          type: string 
+        address:
+          type: string
+        email:
+          type: string
+      example:  
+        id: 1
+        name: Anders And
+        phone: +45 12345678
+        address: Andevej 1, Andeby
+        email: anders.and@andeby.dk
+
+    Convension:    
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        Venue:
+          type: string 
+        Topic:
+          type: string
+      
+      example:  
+        id: 1
+        name: Convension 1
+        Venue: Venue 1
+        Topic: Topic 1
+      
+    Venue:    
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+      
+      example:  
+        id: 1
+        name: Venue 1
+
+    Topic:    
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+      
+      example:  
+        id: 1
+        name: Topic 1       
+
+  securitySchemes:
+    openId:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: 'https://dev-0000-x000.auth0.com/oauth/authorize'
+          tokenUrl: 'https://dev-0000-x000.auth0.com/oauth/token'
+          scopes:
+            {}
+security:
+  - openId:  
+    - talker
+    - participant
+    - administrator                                       
