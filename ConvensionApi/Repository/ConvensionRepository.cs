@@ -7,19 +7,37 @@ namespace ConvensionApi.Repository
 {
     public class ConvensionRepository : IConvensionRepository
     {
-        public Convension GetConvension(int convensionId)
+
+
+        public Convension Get(int convensionId)
         {
-            throw new NotImplementedException();
+            return new Convension
+            {
+                Id = 1,
+                Name = "Test Convenstion",
+                Venue = "Test Venue",
+                Topic = "Test Topic"
+            };
+
         }
 
-        public IList<Convension> GetConvensions()
+        public IList<Convension> Get()
         {
-            throw new NotImplementedException();
+            var convensions = new List<Convension>();
+
+            convensions.Add(new Convension
+            {
+                Id = 1,
+                Name = "Test Convenstion",
+                Venue = "Test Venue",
+                Topic = "Test Topic"
+            });
+            return convensions;
         }
 
-        public Convension SaveConvension(Convension convension)
+        public Convension Save(Convension convension)
         {
-            throw new NotImplementedException();
+            return convension;
         }
     }
 }

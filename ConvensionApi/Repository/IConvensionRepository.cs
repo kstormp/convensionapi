@@ -7,11 +7,11 @@ namespace ConvensionApi.Repository
 {
     public interface IConvensionRepository
     {
-        Convension GetConvension(int convensionId);
+        Convension Get(int convensionId);
 
-        IList<Convension> GetConvensions();
+        IList<Convension> Get();
 
-        Convension SaveConvension(Convension convension);
+        Convension Save(Convension convension);
     }
 }
 

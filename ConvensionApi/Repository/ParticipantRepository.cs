@@ -7,19 +7,40 @@ namespace ConvensionApi.Repository
 {
     public class ParticipantRepository : IParticipantRepository
     {
-        public Participant GetParticipant(int participantId)
+
+        public Participant Get(int convensionId)
         {
-            throw new NotImplementedException();
+            return new Participant
+            {
+                Id = 1,
+                Name = "Anders And",
+                Phone = "+45 12345678",
+                Address = "Andevej 1, Andeby",
+                Email = "anders@and.dk"
+            };
+
         }
 
-        public IList<Participant> GetParticipants()
+
+
+        public IList<Participant> Get()
         {
-            throw new NotImplementedException();
+            var participants = new List<Participant>();
+
+            participants.Add(new Participant
+            {
+                Id = 1,
+                Name = "Anders And",
+                Phone = "+45 12345678",
+                Address = "Andevej 1, Andeby",
+                Email = "anders@and.dk"
+            });
+            return participants;
         }
 
-        public Participant SaveParticipant(Participant participant)
+        public Participant Save(Participant participant)
         {
-            throw new NotImplementedException();
+            return participant;
         }
     }
 }
